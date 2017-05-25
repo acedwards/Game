@@ -6,21 +6,9 @@ public class WorldController : MonoBehaviour {
 
     public static WorldController Instance { get; protected set; }
 
-    public World World
-    {
-        get
-        {
-            return world;
-        }
-
-        protected set
-        {
-            world = value;
-        }
-    }
+    public World World { get; protected set; }
 
     public Sprite floorSprite;
-    World world;
 	
     // Use this for initialization
 	void Start () {
@@ -43,26 +31,27 @@ public class WorldController : MonoBehaviour {
                 tile_go.transform.position = new Vector3(tile_data.X, tile_data.Y, 0);
                 tile_go.transform.SetParent(this.transform, true);
                 tile_go.AddComponent<SpriteRenderer>();
+                tile_go.GetComponent<SpriteRenderer>().sprite = (tile_data.Type == Tile.TileType.Floor) ? floorSprite : null;
 
                 tile_data.RegisterTileTypeChangedCallback((tile) => { OnTileTypeChanged(tile, tile_go); } );
             }
 
         }
-        World.RandomizeTiles();
+        //World.RandomizeTiles();
 	}
 
     float randomizeTileTimer = 2f;
 
 	// Update is called once per frame
 	void Update () {
-        randomizeTileTimer -= Time.deltaTime;
+        //randomizeTileTimer -= Time.deltaTime;
 
-        if (randomizeTileTimer < 0)
-        {
-            World.RandomizeTiles();
-            Debug.Log("RandomizeTiles");
-            randomizeTileTimer = 2f;
-        }
+        //if (randomizeTileTimer < 0)
+        //{
+        //    World.RandomizeTiles();
+        //    Debug.Log("RandomizeTiles");
+        //    randomizeTileTimer = 2f;
+        //}
 	}
 
     void OnTileTypeChanged(Tile tile_data, GameObject tile_go)
