@@ -8,7 +8,7 @@ public class UserInputController : MonoBehaviour {
     public float keyScrollSpeed = 2;
 
     public int zoomSpeed = 1;
-    public int zoomMax = 25;
+    public int zoomMax = 5;
     public int zoomMin = 50;
 
     private Vector3 lastFramePosition;

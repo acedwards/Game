@@ -21,7 +21,7 @@ public class World {
             {
                 tiles[x, y] = new Tile(this, x, y);
                 var radius = Mathf.RoundToInt(Mathf.Sqrt(Mathf.Pow(x-50, 2) + Mathf.Pow(y-50, 2)));
-                tiles[x, y].Type = ((radius <= 30 && radius >= 23) || radius <= 14) ? Tile.TileType.Floor : Tile.TileType.Empty;
+                tiles[x, y].Type = ((radius <= 30 && radius >= 23) || radius <= 14 || (x <= 51 && x >= 49) && (y >= 20 && y <= 80)) ? Tile.TileType.Floor : Tile.TileType.Empty;
             }
 
         }
