@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorSprite_2: {fileID: 21300000, guid: 9b9b82d1ed1d99a4e968f79602071f2d, type: 3}
+  turboliftSprite: {fileID: 21300000, guid: 42670f417d5ba6545971218fb63f62e0, type: 3}
 --- !u!4 &80971230
 Transform:
   m_ObjectHideFlags: 0
@@ -337,7 +338,7 @@ MonoBehaviour:
   fastSpeedMultiplier: 2
   keyScrollSpeed: 2
   zoomSpeed: 1
-  zoomMax: 25
+  zoomMax: 5
   zoomMin: 50
 --- !u!4 &1600082252
 Transform:
@@ -380,6 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorSprite: {fileID: 21300000, guid: af5964388403695479b6317553b5a6ad, type: 3}
+  turboliftSprite: {fileID: 21300000, guid: 42670f417d5ba6545971218fb63f62e0, type: 3}
 --- !u!4 &1729409773
 Transform:
   m_ObjectHideFlags: 0

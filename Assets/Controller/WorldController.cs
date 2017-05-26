@@ -9,6 +9,7 @@ public class WorldController : MonoBehaviour {
     public World World { get; protected set; }
 
     public Sprite floorSprite;
+    public Sprite turboliftSprite;
 	
     // Use this for initialization
 	void Start () {
@@ -32,7 +33,19 @@ public class WorldController : MonoBehaviour {
                 tile_go.layer = LayerMask.NameToLayer("Main");
                 tile_go.transform.SetParent(this.transform, true);
                 tile_go.AddComponent<SpriteRenderer>();
-                tile_go.GetComponent<SpriteRenderer>().sprite = (tile_data.Type == Tile.TileType.Floor) ? floorSprite : null;
+                if (tile_data.Type == Tile.TileType.Floor)
+                {
+                    tile_go.GetComponent<SpriteRenderer>().sprite = floorSprite;
+                }
+                else if (tile_data.Type == Tile.TileType.Turbolift)
+                {
+                    tile_go.GetComponent<SpriteRenderer>().sprite = turboliftSprite;
+                }
+                else
+                {
+                    tile_go.GetComponent<SpriteRenderer>().sprite = null;
+                }
+
 
                 tile_data.RegisterTileTypeChangedCallback((tile) => { OnTileTypeChanged(tile, tile_go); } );
             }

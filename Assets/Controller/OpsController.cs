@@ -9,6 +9,7 @@ public class OpsController : MonoBehaviour {
     public World Ops { get; protected set; }
 
     public Sprite floorSprite_2;
+    public Sprite turboliftSprite;
 
     // Use this for initialization
     void Start()
@@ -33,7 +34,18 @@ public class OpsController : MonoBehaviour {
                 tile_go.layer = LayerMask.NameToLayer("Ops");
                 tile_go.transform.SetParent(this.transform, true);
                 tile_go.AddComponent<SpriteRenderer>();
-                tile_go.GetComponent<SpriteRenderer>().sprite = (tile_data.Type == Tile.TileType.Floor) ? floorSprite_2 : null;
+                if (tile_data.Type == Tile.TileType.Floor)
+                {
+                    tile_go.GetComponent<SpriteRenderer>().sprite = floorSprite_2;
+                }
+                else if (tile_data.Type == Tile.TileType.Turbolift)
+                {
+                    tile_go.GetComponent<SpriteRenderer>().sprite = turboliftSprite;
+                }
+                else
+                {
+                    tile_go.GetComponent<SpriteRenderer>().sprite = null;
+                }
             }
         }
     }

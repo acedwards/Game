@@ -20,11 +20,17 @@ public class World {
             for (int y = 0; y < height; y++)
             {
                 tiles[x, y] = new Tile(this, x, y);
+                //promenade and habitat ring
                 var radius = Mathf.RoundToInt(Mathf.Sqrt(Mathf.Pow(x-50, 2) + Mathf.Pow(y-50, 2)));
                 tiles[x, y].Type = ((radius <= 30 && radius >= 23) || radius <= 14 || (x <= 51 && x >= 49) && (y >= 20 && y <= 80)) ? Tile.TileType.Floor : Tile.TileType.Empty;
             }
 
         }
+        tiles[50, 44].Type = Tile.TileType.Turbolift;
+        tiles[50, 56].Type = Tile.TileType.Turbolift;
+        tiles[44, 50].Type = Tile.TileType.Turbolift;
+        tiles[56, 50].Type = Tile.TileType.Turbolift;
+
         Debug.Log("World created with " + this.Height * this.Width + " tiles");
     }
 

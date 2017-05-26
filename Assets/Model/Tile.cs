@@ -7,7 +7,7 @@ public class Tile {
 
     Action<Tile> cbTileTypeChanged;
 
-    public enum TileType {Empty, Floor};
+    public enum TileType {Empty, Floor, Turbolift};
 
     TileType type = TileType.Empty;
 
