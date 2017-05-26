@@ -57,9 +57,9 @@ public class Tile {
             return true;
         }
 
-        if(installedObject != null)
+        if(installedObject != null || Type == TileType.Turbolift)
         {
-            Debug.LogError("Trying to assign installed object to tile that already has one");
+            Debug.LogError("Trying to assign installed object to tile that already has one, or trying to install on a turbolift");
             return false;
         }
 

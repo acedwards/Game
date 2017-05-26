@@ -11,11 +11,13 @@ public class WorldController : MonoBehaviour {
     public Sprite floorSprite;
     public Sprite turboliftSprite;
     public Sprite opsFloorSprite;
+    public Sprite wallSprite;
 
-    private List<Vector3> mainWallCoords = new List<Vector3>();
+    Dictionary<Tile, GameObject> tileGameObjectMap;
+    Dictionary<InstalledObject, GameObject> installedObjectGameObjectMap;
 
     // Use this for initialization
-	void Start () {
+    void Start () {
         if(Instance != null)
         {
             Debug.LogError("There should never be two world controllers");
@@ -24,7 +26,11 @@ public class WorldController : MonoBehaviour {
         
         //create world with empty tiles
         World = new World();
-        //World.InstantiateObjects();
+
+        World.RegisterInstalledObjectCreated(OnInstalledObjectCreated);
+
+        tileGameObjectMap = new Dictionary<Tile, GameObject>();
+        installedObjectGameObjectMap = new Dictionary<InstalledObject, GameObject>();
 
         for (int x = 0; x < World.Width; x++)
         {
@@ -40,16 +46,11 @@ public class WorldController : MonoBehaviour {
                     {
                         CreateTileGameObject("", floorSprite, x, y, z, "Main");
                     }
-
-                }
-                
+                }  
             }
-
         }
-        
+        World.PlaceWalls();  
 	}
-
-    float randomizeTileTimer = 2f;
 
 	// Update is called once per frame
 	void Update () {
@@ -84,7 +85,7 @@ public class WorldController : MonoBehaviour {
     {
         Tile tile_data = World.GetTileAt(new Vector3(xcoord, ycoord, zcoord));
         GameObject tile_go = new GameObject();
-        tile_go.name = name + "Tile_" + xcoord + "_" + ycoord;
+        tile_go.name = name + "Tile_" + xcoord + "_" + ycoord + "_" + zcoord;
         tile_go.transform.position = tile_data.Location;
         tile_go.layer = LayerMask.NameToLayer(layerName);
         tile_go.transform.SetParent(this.transform, true);
@@ -101,8 +102,31 @@ public class WorldController : MonoBehaviour {
         {
             tile_go.GetComponent<SpriteRenderer>().sprite = null;
         }
+        tileGameObjectMap.Add(tile_data, tile_go);
+    }
+    
+    public void OnInstalledObjectCreated(InstalledObject obj)
+    {
+        GameObject obj_go = new GameObject();
+
+        installedObjectGameObjectMap.Add(obj, obj_go);
+
+        obj_go.name = obj.objectType + "_" + obj.tile.Location.x + "_" + obj.tile.Location.y + "_" + obj.tile.Location.z;
+        obj_go.transform.position = obj.tile.Location;
+        obj_go.transform.SetParent(this.transform, true);
+
+        // FIXME: We assume that the object must be a wall, so use
+        // the hardcoded reference to the wall sprite.
+        obj_go.AddComponent<SpriteRenderer>().sprite = wallSprite; // FIXME
+        obj_go.GetComponent<SpriteRenderer>().sortingLayerName = "InstalledObjects"; 
+
+        // Register our callback so that our GameObject gets updated whenever
+        // the object's into changes.
+        obj.RegisterOnChangedCallback(OnInstalledObjectChanged);
     }
 
-    //Add more as we create them
-   
+    void OnInstalledObjectChanged(InstalledObject obj)
+    {
+        Debug.LogError("OnInstalledObjectChanged -- NOT IMPLEMENTED");
+    }
 }

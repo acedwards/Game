@@ -341,6 +341,7 @@ MonoBehaviour:
   floorSprite: {fileID: 21300000, guid: af5964388403695479b6317553b5a6ad, type: 3}
   turboliftSprite: {fileID: 21300000, guid: 42670f417d5ba6545971218fb63f62e0, type: 3}
   opsFloorSprite: {fileID: 21300000, guid: 9b9b82d1ed1d99a4e968f79602071f2d, type: 3}
+  wallSprite: {fileID: 21300000, guid: 613bd1257665ed245991fb80b577830f, type: 3}
 --- !u!4 &1729409773
 Transform:
   m_ObjectHideFlags: 0

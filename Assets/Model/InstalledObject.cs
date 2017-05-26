@@ -1,19 +1,25 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InstalledObject {
 
-    static public Dictionary<string, InstalledObject> InstalledObjects;
-    string objectType;
+    public string objectType { get; protected set; }
     bool isPassable;
     float movementCost;
     int width;
     int height;
 
-    Tile tile;
+    public Tile tile { get; protected set; }
 
-    static public void CreatePrototype(string objectType, bool isPassable = false, float movementCost = 1f, int width = 1, int height = 1)
+    Action<InstalledObject> cbOnChanged;
+
+    protected InstalledObject()
+    {
+
+    }
+
+    static public InstalledObject CreatePrototype(string objectType, bool isPassable = false, float movementCost = 1f, int width = 1, int height = 1)
     {
         InstalledObject obj = new InstalledObject();
 
@@ -23,7 +29,7 @@ public class InstalledObject {
         obj.width = width;
         obj.height = height;
 
-        InstalledObjects.Add(objectType, obj);
+        return obj;
     }
 
     static public InstalledObject PlaceInstance(InstalledObject proto, Tile tile)
@@ -44,5 +50,15 @@ public class InstalledObject {
         }
 
         return obj;
+    }
+
+    public void RegisterOnChangedCallback(Action<InstalledObject> callbackFunc)
+    {
+        cbOnChanged += callbackFunc;
+    }
+
+    public void UnregisterOnChangedCallback(Action<InstalledObject> callbackFunc)
+    {
+        cbOnChanged -= callbackFunc;
     }
 }
