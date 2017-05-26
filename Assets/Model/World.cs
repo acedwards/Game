@@ -61,7 +61,6 @@ public class World {
                     tiles[x, y].Type = Tile.TileType.Empty;
                 }
             }
-
         }
     }
 

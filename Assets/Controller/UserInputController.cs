@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseController : MonoBehaviour {
+public class UserInputController : MonoBehaviour {
 
     public float fastSpeedMultiplier = 2;
     public float keyScrollSpeed = 2;
@@ -24,6 +24,7 @@ public class MouseController : MonoBehaviour {
         CheckKeyboardScroll();
         CheckZoom();
         CheckMouseScroll();
+        CheckLevelSwitchButton();
     }
 
     private void CheckKeyboardScroll()
@@ -59,5 +60,13 @@ public class MouseController : MonoBehaviour {
         }
 
         lastFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
+
+    private void CheckLevelSwitchButton()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ops");
+        }
     }
 }
