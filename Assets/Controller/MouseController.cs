@@ -37,6 +37,7 @@ public class MouseController : MonoBehaviour {
             Camera.main.transform.Translate(translationX * keyScrollSpeed, translationY * keyScrollSpeed, 0);
     }
 
+    //buggy, can zoom out but can't zoom back in
     private void CheckZoom()
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && Camera.main.orthographicSize > zoomMax) // Zoom out

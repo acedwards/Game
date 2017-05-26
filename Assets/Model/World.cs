@@ -9,7 +9,7 @@ public class World {
     public int Width { get; }
     public int Height { get; }
 
-    public World(int width = 150, int height = 150)
+    public World(int width = 100, int height = 100)
     {
         this.Width = width;
         this.Height = height;
@@ -20,12 +20,33 @@ public class World {
             for (int y = 0; y < height; y++)
             {
                 tiles[x, y] = new Tile(this, x, y);
+                var radius = Mathf.RoundToInt(Mathf.Sqrt(Mathf.Pow(x-50, 2) + Mathf.Pow(y-50, 2)));
+                tiles[x, y].Type = ((radius <= 30 && radius >= 23) || radius <= 14) ? Tile.TileType.Floor : Tile.TileType.Empty;
             }
 
         }
         Debug.Log("World created with " + this.Height * this.Width + " tiles");
-    } 
+    }
 
+    public World(Levels.LevelType level, int width = 100, int height = 100)
+    {
+        this.Width = width;
+        this.Height = height;
+        tiles = new Tile[width, height];
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                tiles[x, y] = new Tile(this, x, y);
+                var radius = Mathf.RoundToInt(Mathf.Sqrt(Mathf.Pow(x - 50, 2) + Mathf.Pow(y - 50, 2)));
+                tiles[x, y].Type = (radius <= 5) ? Tile.TileType.Floor : Tile.TileType.Empty;
+            }
+        }
+        Debug.Log("Ops created");
+    }
+
+    //For test purposes only 
     public void RandomizeTiles()
     {
         for (int x = 0; x < Width; x++)
