@@ -15,8 +15,7 @@ public class Tile {
     InstalledObject installedObject;
 
     World world;
-    public int X { get; }
-    public int Y { get; }
+    public Vector3 Location { get; }
 
     public TileType Type
     {
@@ -34,11 +33,10 @@ public class Tile {
         }
     }
 
-    public Tile(World world, int x, int y)
+    public Tile(World world, int x, int y, int z)
     {
         this.world = world;
-        this.X = x;
-        this.Y = y;
+        this.Location = new Vector3(x, y, z); 
     }
 
     public void RegisterTileTypeChangedCallback(Action<Tile> callback)
@@ -49,5 +47,23 @@ public class Tile {
     public void UnregisterTileTypeChangedCallback(Action<Tile> callback)
     {
         cbTileTypeChanged -= callback;
+    }
+
+    public bool PlaceObject(InstalledObject objInstance)
+    {
+        if (objInstance == null)
+        {
+            installedObject = null;
+            return true;
+        }
+
+        if(installedObject != null)
+        {
+            Debug.LogError("Trying to assign installed object to tile that already has one");
+            return false;
+        }
+
+        installedObject = objInstance;
+        return true;
     }
 }
