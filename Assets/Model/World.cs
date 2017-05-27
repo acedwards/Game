@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class World {
@@ -9,6 +10,8 @@ public class World {
     public int Width { get; }
     public int Height { get; }
     public int Depth { get; }
+
+    private string wallPath = "Assets/Resources/wall_locations.txt";
 
     private List<Vector3> wallCoords = new List<Vector3>()
         { 
@@ -48,7 +51,7 @@ public class World {
                     tiles[x, y, 0].Type = Tile.TileType.Floor;
                 }
                 //END TILES
-                //WALLS
+                //OUTER WALLS
                 if (radius == 5)
                 {
                     for (int z = 0; z < depth; z++)
@@ -85,7 +88,8 @@ public class World {
         tiles[71, 39, 1].Type = Tile.TileType.Turbolift;
         tiles[39, 57, 1].Type = Tile.TileType.Turbolift;
         tiles[30, 63, 1].Type = Tile.TileType.Turbolift;
-        //CreateWallCoords();
+
+        //GetWallCoords();
 
         CreateObjectPrototypes();
 
@@ -94,9 +98,9 @@ public class World {
 
     public Tile GetTileAt(Vector3 coord)
     {
-        if(coord.x > Width || coord.x < 0 || coord.y > Height || coord.y < 0 || coord.z > Depth || coord.z < 0)
+        if((coord.x > Width) || (coord.x < 0 ) || (coord.y > Height) || (coord.y < 0 ) || (coord.z > Depth) || (coord.z < 0))
         {
-            Debug.LogError("Tile" + coord.x + " " + coord.y + " is out of range.");
+            Debug.LogError("Tile " + coord.x + " " + coord.y + " " + coord.z + " is out of range.");
             return null;
         }
         return tiles[Mathf.RoundToInt(coord.x), Mathf.RoundToInt(coord.y), Mathf.RoundToInt(coord.z)];
@@ -106,17 +110,28 @@ public class World {
     {
         foreach (Vector3 coord in wallCoords)
             {
-                var tile = GetTileAt(coord);
                 PlaceInstalledObject("Wall", GetTileAt(coord));
             }
     }
 
-    private void CreateWallCoords()
+    private void GetWallCoords()
     {
-        //for (int y = 0; y < length; y++)
-        //{
-
-        //}
+        string coords;
+        
+        StreamReader reader = new StreamReader(wallPath, true);
+        while ((coords = reader.ReadLine()) != null)
+        {
+            List<float> floatCoords = new List<float>();
+            var coordArray = coords.Split(',');
+            foreach (string number in coordArray)
+            {
+                float floatCoord = float.Parse(number);
+                floatCoords.Add(floatCoord);
+            }
+            var vectorCoords = new Vector3(floatCoords[0], floatCoords[1], floatCoords[2]);
+            wallCoords.Add(vectorCoords);
+        }
+        reader.Close();
     }
 
     public void CreateObjectPrototypes()

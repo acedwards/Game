@@ -26,7 +26,7 @@ public class UserInputController : MonoBehaviour {
         fakeWall = new GameObject();
         fakeWall.AddComponent<SpriteRenderer>().sprite = fakeWallSprite;
         fakeWall.GetComponent<SpriteRenderer>().sortingLayerName = "InstalledObjects";
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -96,10 +96,9 @@ public class UserInputController : MonoBehaviour {
         {
             Vector3 currFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             currFramePosition.z = 1;
-            Debug.Log("mouse clicked at " + currFramePosition);
             Tile tileAtPosition = WorldController.Instance.World.GetTileAt(currFramePosition);
             GameObject go = Instantiate(fakeWall, tileAtPosition.Location, Quaternion.identity);
-            writer.WriteLine(tileAtPosition.Location.ToString());
+            writer.WriteLine(Mathf.RoundToInt(tileAtPosition.Location.x) +"," + Mathf.RoundToInt(tileAtPosition.Location.y) + "," + Mathf.RoundToInt(tileAtPosition.Location.z));
             
         }
     }
