@@ -293,6 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9979e9fea1f2fd3438eecf6719c9b658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fakeWallSprite: {fileID: 21300000, guid: 613bd1257665ed245991fb80b577830f, type: 3}
   fastSpeedMultiplier: 2
   keyScrollSpeed: 2
   zoomSpeed: 1

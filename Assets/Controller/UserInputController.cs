@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEditor;
 
 public class UserInputController : MonoBehaviour {
 
+    GameObject fakeWall;
+    public Sprite fakeWallSprite;
     public float fastSpeedMultiplier = 2;
     public float keyScrollSpeed = 2;
 
@@ -12,11 +16,16 @@ public class UserInputController : MonoBehaviour {
     public int zoomMin = 50;
 
     private Vector3 lastFramePosition;
+    string path = "Assets/Resources/wall_locations.txt";
+    StreamWriter writer;
     //public GameObject circleCursor;
     
     // Use this for initialization
     void Start () {
-		
+        writer = new StreamWriter(path, true);
+        fakeWall = new GameObject();
+        fakeWall.AddComponent<SpriteRenderer>().sprite = fakeWallSprite;
+        fakeWall.GetComponent<SpriteRenderer>().sortingLayerName = "InstalledObjects";
 	}
 	
 	// Update is called once per frame
@@ -25,6 +34,8 @@ public class UserInputController : MonoBehaviour {
         CheckZoom();
         CheckMouseScroll();
         CheckLevelSwitchButton();
+        CheckMouseClick();
+        CheckDoneButton();
     }
 
     private void CheckKeyboardScroll()
@@ -67,6 +78,29 @@ public class UserInputController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.L))
         {
             Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ops");
+        }
+    }
+
+    private void CheckDoneButton()
+    {
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            writer.Close();
+            AssetDatabase.ImportAsset(path);
+        }
+    }
+
+    private void CheckMouseClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 currFramePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            currFramePosition.z = 1;
+            Debug.Log("mouse clicked at " + currFramePosition);
+            Tile tileAtPosition = WorldController.Instance.World.GetTileAt(currFramePosition);
+            GameObject go = Instantiate(fakeWall, tileAtPosition.Location, Quaternion.identity);
+            writer.WriteLine(tileAtPosition.Location.ToString());
+            
         }
     }
 }

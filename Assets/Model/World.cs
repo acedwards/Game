@@ -99,7 +99,7 @@ public class World {
             Debug.LogError("Tile" + coord.x + " " + coord.y + " is out of range.");
             return null;
         }
-        return tiles[(int)coord.x, (int)coord.y, (int)coord.z];
+        return tiles[Mathf.RoundToInt(coord.x), Mathf.RoundToInt(coord.y), Mathf.RoundToInt(coord.z)];
     }
 
     public void PlaceWalls()

@@ -75,8 +75,9 @@ public class WorldController : MonoBehaviour {
 
     Tile GetTileAtWorldCoord(Vector3 coord)
     {
-        //int x = Mathf.RoundToInt(coord.x);
-        //int y = Mathf.RoundToInt(coord.y);
+        Vector3 roundedCoord = new Vector3();
+        roundedCoord.x = Mathf.RoundToInt(coord.x);
+        roundedCoord.y = Mathf.RoundToInt(coord.y);
 
         return World.GetTileAt(coord);
     }
